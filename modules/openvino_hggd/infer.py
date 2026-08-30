@@ -102,7 +102,6 @@ if script_dir not in sys.path:
 
 from customgraspnetAPI import Grasp as GraspNetGrasp
 from customgraspnetAPI import GraspGroup as GraspNetGraspGroup
-from customgraspnetAPI import GraspNetEval
 from dataset.config import camera
 from dataset.evaluation import (anchor_output_process, detect_2d_grasp,
                                 detect_6d_grasp_multi)
@@ -492,25 +491,6 @@ def inference():
         logging.info('Not enough frames for timing statistics')
 
 
-def evaluate():
-    ge = GraspNetEval(root=args.scene_path,
-                      camera=camera,
-                      split=(args.scene_l, args.scene_r))
-    res, ap, colli = ge.eval_scene_lr(args.dump_dir,
-                                      args.scene_l,
-                                      args.scene_r,
-                                      proc=1)
-    result_path = os.path.join(os.path.dirname(args.dump_dir), 'eval_result.npy')
-    np.save(result_path, res)
-    aps = res.mean(0).mean(0).mean(0)
-    logging.info(f'Scene: {args.scene_l} ~ {args.scene_r}')
-    logging.info(f'colli == {colli}')
-    logging.info(f'ap == {ap}')
-    logging.info(f'ap0.8 == {aps[3]}')
-    logging.info(f'ap0.4 == {aps[1]}')
-    return ap, aps[3], aps[1], colli
-
-
 if __name__ == '__main__':
     np.set_printoptions(precision=4, suppress=True)
     torch.set_printoptions(precision=4, sci_mode=False)
@@ -543,11 +523,5 @@ if __name__ == '__main__':
     logging.info(f'Log: {log_path}')
 
     inference()
-    logging.info('Running evaluation...')
-    ap, ap08, ap04, colli = evaluate()
-
-    logging.info(f'=== Results: OV {args.ov_device} (precision_hint={args.precision_hint}) ===')
-    logging.info(f'AP:      {ap:.4f} ({ap*100:.2f}%)')
-    logging.info(f'AP@0.8:  {ap08:.4f} ({ap08*100:.2f}%)')
-    logging.info(f'AP@0.4:  {ap04:.4f} ({ap04*100:.2f}%)')
-    logging.info(f'Collision rate: {colli:.4f} ({colli*100:.2f}%)')
+    logging.info('Inference complete. Predictions dumped to: ' + args.dump_dir)
+    logging.info('Run evaluate.py to compute CF-AP and collision metrics.')

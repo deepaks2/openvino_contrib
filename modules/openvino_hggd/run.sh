@@ -1,7 +1,8 @@
 #!/bin/bash
 # Copyright (C) 2018-2026 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
-# HGGD Intel iGPU — Run inference on one scene and report FPS + Accuracy
+# HGGD Intel iGPU — Run inference on one scene, report FPS, dump predictions
+# (evaluation: run evaluate.py afterwards — see README)
 #
 # Usage: bash run.sh <CHECKPOINT_PATH> <DATASET_PATH> <SCENE_PATH> [SCENE_ID] [OV_DEVICE]
 #

@@ -70,9 +70,6 @@ conda run -n "$ENV_NAME" pip install \
     onnx==1.22.0 \
     pillow==12.1.1
 
-# graspnetAPI 1.2.11 has a stale numpy pin (1.20.3); hggd_intel uses it with the newer stack.
-conda run -n "$ENV_NAME" pip install --no-deps graspnetAPI==1.2.11
-
 # Make the environment self-contained: activating it should prefer its own Intel runtime libs.
 ENV_PREFIX="$(conda run -n "$ENV_NAME" python -c 'import sys; print(sys.prefix)')"
 ACTIVATE_DIR="$ENV_PREFIX/etc/conda/activate.d"
