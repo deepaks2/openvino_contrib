@@ -1,3 +1,8 @@
+<!--
+Copyright (C) 2018-2026 Intel Corporation
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # HGGD — OpenVINO iGPU Enablement
 
 OpenVINO inference enablement for [HGGD](https://github.com/THU-VCLab/HGGD) (Hybrid Grasp Detection and Generation) on Intel integrated GPU.
